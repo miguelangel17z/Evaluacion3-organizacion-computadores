@@ -7,7 +7,7 @@ Permite convertir archivos `.vm` o carpetas enteras (módulos múltiples) genera
 El ejercicio de ejemplo incluido (**NestedSum**) demuestra el funcionamiento completo: traduce y ejecuta un programa que calcula la sumatoria
 
 \[
-S = \sum_{i=0}^{n} \bigl(i^2 + 1\bigr)
+$S = \sum_{i=0}^{n} \bigl(i^2 + 1\bigr)$
 \]
 
 donde `n` es una constante definida en `Sys.vm`.

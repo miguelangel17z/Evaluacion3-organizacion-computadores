@@ -1,0 +1,9 @@
+// Sys.vm
+// Cambia N por cualquier valor
+function Sys.init 0       // función de iniciación
+    push constant 7       // <-- N (ejemplo). Ajusta aquí el valor de n.
+    call Main.computeSum 1
+    pop temp 0            // descarta el resultado o muévelo donde necesites
+
+label INFINITE_LOOP
+    goto INFINITE_LOOP //loop infinito como estandar de nand2tetris

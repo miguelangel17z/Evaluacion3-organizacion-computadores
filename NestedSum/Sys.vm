@@ -1,9 +1,18 @@
 // Sys.vm
-// Cambia N por cualquier valor
-function Sys.init 0       // función de iniciación
-    push constant 7       // <-- N (ejemplo). Ajusta aquí el valor de n.
-    call Main.computeSum 1
-    pop temp 0            // descarta el resultado o muévelo donde necesites
+// Punto de entrada del programa (bootstrap llama aquí)
 
-label INFINITE_LOOP
-    goto INFINITE_LOOP //loop infinito como estandar de nand2tetris
+// Declaramos la función principal del sistema
+function Sys.init 0
+
+// Definir el valor de n
+push constant 7     
+
+// Llamar a la función que calcula la sumatoria
+call Main.computeSum 1   
+
+// Guardar o inspeccionar el resultado 
+pop temp 0          // Guarda el resultado en temp 0 (RAM[5]) para verlo fácil
+
+// Terminar Proceso
+label Sys$END
+goto Sys$END

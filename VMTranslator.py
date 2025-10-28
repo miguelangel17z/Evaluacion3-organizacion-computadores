@@ -1,6 +1,9 @@
 from Parser import Parser
 from CodeWriter import CodeWriter
 import sys
+import os
+from Parser import Parser
+from CodeWriter import CodeWriter
 
 class VMTranslator:
     def readFileVM(self, name):
@@ -29,9 +32,19 @@ class VMTranslator:
 
 
 def main():
-    vm = VMTranslator()
     if len(sys.argv) != 2:
-        print("Escriba correctamente los argumentos")
+        print("Uso: python VMTranslator.py <archivo.vm | carpeta>")
+        return
+
+    path = sys.argv[1]
+
+    # Descubrir archivos de entrada y archivo de salida
+    if os.path.isdir(path):
+        files = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(".vm")]
+        if not files:
+            print("No se encontraron .vm en la carpeta.")
+            return
+        out_asm = os.path.join(path, os.path.basename(path) + ".asm")
     else:
         file = vm.readFileVM(sys.argv[1])
         ps = Parser(file)
@@ -45,9 +58,8 @@ def main():
                 cw.writePushPop(cmd, ps.arg1, ps.arg2)
             
 
-    
+    cw.close()
+    print(f"Archivo generado: {out_asm}")
 
 if __name__ == "__main__":
     main()
-
-

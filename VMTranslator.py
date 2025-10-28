@@ -1,17 +1,35 @@
+from Parser import Parser
+from CodeWriter import CodeWriter
 import sys
 import os
 from Parser import Parser
 from CodeWriter import CodeWriter
 
-def clean_lines(lines):
-    cleaned = []
-    for line in lines:
-        line = line.strip()
-        if "//" in line:
-            line = line[:line.index("//")]
-        if line != "":
-            cleaned.append(line)
-    return cleaned
+class VMTranslator:
+    def readFileVM(self, name):
+        lines = []
+        with open(name, "r") as f:
+            lines = f.readlines()
+        cleaned_lines = self.clean_lines(lines)
+
+        return cleaned_lines
+
+    def clean_lines(self, lines):
+        cleaned_lines = []
+        for line in lines:
+            line = line.strip()
+            if "//" in line:
+                line = line[:line.index("//")]
+            cleaned_lines.append(line)
+        cleaned_lines = [x for x in cleaned_lines if x != ""]
+        return cleaned_lines
+    
+    def setFileName(self, filename):
+        return filename.replace('.vm', '.asm')
+        
+
+
+
 
 def main():
     if len(sys.argv) != 2:
@@ -28,46 +46,17 @@ def main():
             return
         out_asm = os.path.join(path, os.path.basename(path) + ".asm")
     else:
-        if not path.endswith(".vm"):
-            print("Si pasas un archivo, debe ser .vm")
-            return
-        files = [path]
-        out_asm = path[:-3] + "asm"
-
-    # Crear CodeWriter (él escribe directo al .asm)
-    cw = CodeWriter(out_asm)
-
-    # Bootstrap si es carpeta (múltiples archivos => punto de entrada Sys.init)
-    if os.path.isdir(path):
-        cw.writeBootstrap()
-
-    # Traducir cada archivo .vm
-    for vmfile in files:
-        cw.setFileName(vmfile)  # importante para símbolos "static"
-        with open(vmfile, "r") as f:
-            lines = clean_lines(f.readlines())
-
-        ps = Parser(lines)
-        while ps.hasMoreLines():
+        file = vm.readFileVM(sys.argv[1])
+        ps = Parser(file)
+        cw = CodeWriter(vm.setFileName(sys.argv[1]))
+        while(ps.hasMoreLines()):
             ps.advance()
-            ctype = ps.commandType()
-
-            if ctype == "C_ARITHMETIC":
+            cmd = ps.commanType()
+            if cmd == "C_ARITHMETIC":
                 cw.writeArithmetic(ps.arg1)
-            elif ctype in ("C_PUSH", "C_POP"):
-                cw.writePushPop(ctype, ps.arg1, ps.arg2)
-            elif ctype == "C_LABEL":
-                cw.writeLabel(ps.arg1)
-            elif ctype == "C_GOTO":
-                cw.writeGoto(ps.arg1)
-            elif ctype == "C_IF":
-                cw.writeIf(ps.arg1)
-            elif ctype == "C_FUNCTION":
-                cw.writeFunction(ps.arg1, ps.arg2)
-            elif ctype == "C_CALL":
-                cw.writeCall(ps.arg1, ps.arg2)
-            elif ctype == "C_RETURN":
-                cw.writeReturn()
+            elif cmd == "C_PUSH" or cmd == "C_POP":
+                cw.writePushPop(cmd, ps.arg1, ps.arg2)
+            
 
     cw.close()
     print(f"Archivo generado: {out_asm}")

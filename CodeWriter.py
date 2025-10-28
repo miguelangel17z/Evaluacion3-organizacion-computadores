@@ -6,8 +6,7 @@ class CodeWriter:
         self.label_counter = 0
         self.current_function = ""
 
-    def setFileName(self, filename):
-        self.current_file = filename.replace('.vm', '')
+
 
     def writeArithmetic(self, command):
         """Escribe código Assembly para comandos aritméticos"""

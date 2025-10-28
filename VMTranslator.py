@@ -1,4 +1,5 @@
 from Parser import Parser
+from CodeWriter import CodeWriter
 import sys
 
 class VMTranslator:
@@ -19,6 +20,13 @@ class VMTranslator:
             cleaned_lines.append(line)
         cleaned_lines = [x for x in cleaned_lines if x != ""]
         return cleaned_lines
+    
+    def setFileName(self, filename):
+        return filename.replace('.vm', '.asm')
+        
+
+
+
 
 def main():
     vm = VMTranslator()
@@ -27,10 +35,15 @@ def main():
     else:
         file = vm.readFileVM(sys.argv[1])
         ps = Parser(file)
+        cw = CodeWriter(vm.setFileName(sys.argv[1]))
         while(ps.hasMoreLines()):
             ps.advance()
-            print(ps.commanType())
-            print("Arg1: ", ps.arg1,"| Arg2: ", ps.arg2)
+            cmd = ps.commanType()
+            if cmd == "C_ARITHMETIC":
+                cw.writeArithmetic(ps.arg1)
+            elif cmd == "C_PUSH" or cmd == "C_POP":
+                cw.writePushPop(cmd, ps.arg1, ps.arg2)
+            
 
     
 

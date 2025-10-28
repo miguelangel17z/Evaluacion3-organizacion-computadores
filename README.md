@@ -143,7 +143,7 @@ return
 ### Traducir una carpeta completa
 Desde la línea de comandos:
 ```bash
-python VMTranslator.py NestedSum
+python VMTranslator.py path/NestedSum
 ```
 Esto genera:
 ```

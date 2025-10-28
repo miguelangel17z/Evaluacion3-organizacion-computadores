@@ -62,3 +62,4 @@ class Parser:
 
         # Si cae aquí, hay una instrucción no soportada
         raise ValueError(f"Comando VM no reconocido: {self.currentLine}")
+

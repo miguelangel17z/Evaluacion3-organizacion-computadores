@@ -6,6 +6,10 @@ class CodeWriter:
         self.label_counter = 0
         self.current_function = ""
 
+    def setFileName(self, filename):
+        import os
+        # Solo nombre base sin extensión, p.ej. "Main"
+        self.current_file = os.path.splitext(os.path.basename(filename))[0]
 
 
     def writeArithmetic(self, command):

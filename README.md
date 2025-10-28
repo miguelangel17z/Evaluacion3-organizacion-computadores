@@ -4,7 +4,7 @@
 Este proyecto implementa un traductor del lenguaje de Máquina Virtual (VM) al lenguaje ensamblador **Hack**, siguiendo las especificaciones del curso *Nand2Tetris* ("Construyendo una computadora moderna desde cero").  
 Permite convertir archivos `.vm` o carpetas enteras (módulos múltiples) generando como salida un único archivo `.asm` listo para ejecutar en el **CPUEmulator** o en el **Web IDE** del curso.
 
-El ejercicio de ejemplo incluido (**NestedSum**) demuestra el funcionamiento completo: traduce y ejecuta un programa que calcula la sumatoria\\
+El ejercicio de ejemplo incluido (**NestedSum**) demuestra el funcionamiento completo: traduce y ejecuta un programa que calcula la sumatoria\
 
 
 $S = \sum_{i=0}^{n} \bigl(i^2 + 1\bigr)$

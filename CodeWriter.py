@@ -7,7 +7,10 @@ class CodeWriter:
         self.current_function = ""
 
     def setFileName(self, filename):
-        self.current_file = filename.replace('.vm', '')
+        import os
+        # Solo nombre base sin extensión, p.ej. "Main"
+        self.current_file = os.path.splitext(os.path.basename(filename))[0]
+
 
     def writeArithmetic(self, command):
         """Escribe código Assembly para comandos aritméticos"""
